@@ -1,5 +1,5 @@
 /**
- * Quinnevic — Google Ads Daily Export Script
+ * Quinovic — Google Ads Daily Export Script
  * 
  * Runs daily (schedule in Google Ads: Scripts > Frequency > Daily).
  * Exports PREVIOUS day's campaign data to a Google Sheet.
@@ -140,9 +140,13 @@ function getExistingDateCampaignPairs(sheet) {
  * Default: if name contains " - ", take the part after the last " - "
  */
 function extractRegion(campaignName) {
-  var parts = campaignName.split(' - ');
-  if (parts.length > 1) {
-    return parts[parts.length - 1].trim();
+  // Handle pipe-delimited names like "Search | Viaduct | Property Management"
+  if (campaignName.indexOf(' | ') !== -1) {
+    var parts = campaignName.split(' | ');
+    if (parts.length >= 2) return parts[1].trim();
   }
+  // Fallback: dash-delimited "Campaign - Region"
+  var dashParts = campaignName.split(' - ');
+  if (dashParts.length > 1) return dashParts[dashParts.length - 1].trim();
   return 'Auckland';
 }

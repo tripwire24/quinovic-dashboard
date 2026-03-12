@@ -1,8 +1,8 @@
 /**
- * Quinnevic — Apps Script JSON API
+ * Quinovic — Apps Script JSON API
  * 
  * Serves Google Sheet data as JSON via a web endpoint.
- * Bound to the "Quinnevic — Google Ads Data" Google Sheet.
+ * Bound to the "Quinovic — Google Ads Data" Google Sheet.
  * 
  * SETUP:
  * 1. Open the Google Sheet → Extensions → Apps Script

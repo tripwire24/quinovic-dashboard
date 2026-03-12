@@ -3,80 +3,92 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quinnevic — Google Ads Dashboard</title>
-  <meta name="description" content="Quinnevic Google Ads campaign performance dashboard">
-  <meta name="theme-color" content="#1e3a5f">
-  
+  <title>Quinovic — Google Ads Dashboard</title>
+  <meta name="description" content="Quinovic Google Ads campaign performance dashboard">
+  <meta name="theme-color" content="#1B2A4A">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231B2A4A'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='system-ui' font-size='18' font-weight='700' fill='%2300B4A6'%3EQ%3C/text%3E%3C/svg%3E">
+
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  
-  <!-- Tailwind CSS via CDN -->
+
+  <!-- Google Fonts — clean sans-serif matching Quinovic site -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'] },
           colors: {
-            brand: {
-              50:  '#eef5ff',
-              100: '#d9e8ff',
-              200: '#bcd7ff',
-              300: '#8ebfff',
-              400: '#599dff',
-              500: '#3379fc',
-              600: '#1d5af1',
-              700: '#1545de',
-              800: '#1839b4',
-              900: '#1a338e',
-              950: '#142156',
+            qnav: {
+              50:'#f0f4f8',100:'#d9e2ec',200:'#bcccdc',300:'#9fb3c8',400:'#829ab1',
+              500:'#627d98',600:'#486581',700:'#334e68',800:'#243b53',900:'#1B2A4A',950:'#102a43'
+            },
+            qteal: {
+              50:'#e6faf8',100:'#b3f0ea',200:'#80e6db',300:'#4ddbcd',400:'#26d1c0',
+              500:'#00B4A6',600:'#009e92',700:'#00877d',800:'#007069',900:'#005a55'
             }
           }
         }
       }
     }
   </script>
-  
+
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
-  
+
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-gray-50 text-gray-800 min-h-screen">
+<body class="bg-gray-50 text-gray-800 min-h-screen font-sans">
 
   <!-- Header -->
-  <header class="bg-brand-950 text-white shadow-lg">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <div>
-          <h1 class="text-xl sm:text-2xl font-bold tracking-tight">Quinnevic</h1>
-          <p class="text-brand-300 text-sm mt-0.5">Google Ads Performance Dashboard</p>
+  <header class="bg-qnav-900 text-white shadow-lg print:shadow-none">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-5">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-qteal-500 flex items-center justify-center flex-shrink-0">
+            <span class="text-white font-bold text-lg">Q</span>
+          </div>
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold tracking-tight">Quinovic</h1>
+            <p class="text-qnav-300 text-xs mt-0.5">Google Ads Performance Dashboard</p>
+          </div>
         </div>
-        <div id="last-updated" class="text-brand-300 text-xs sm:text-sm"></div>
+        <div class="flex items-center gap-3">
+          <span id="last-updated" class="text-qnav-400 text-xs"></span>
+          <button id="btn-download" class="flex items-center gap-1.5 px-3 py-1.5 bg-qnav-800 hover:bg-qnav-700 border border-qnav-700 text-qnav-200 rounded-lg text-xs font-medium transition-colors" title="Download as PDF">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
+            PDF
+          </button>
+        </div>
       </div>
     </div>
   </header>
 
   <!-- Date Range Bar -->
-  <div class="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">
+  <div class="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm print:hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3">
       <div class="flex flex-col sm:flex-row sm:items-center gap-3">
-        <!-- Preset buttons -->
         <div class="flex gap-1.5 flex-wrap" id="presets">
-          <button data-days="7" class="preset-btn px-3 py-1.5 rounded-full text-xs font-medium border border-gray-300 text-gray-600 hover:bg-brand-50 hover:border-brand-300 hover:text-brand-700 transition-colors">7 days</button>
-          <button data-days="30" class="preset-btn px-3 py-1.5 rounded-full text-xs font-medium border border-brand-500 bg-brand-50 text-brand-700">30 days</button>
-          <button data-days="90" class="preset-btn px-3 py-1.5 rounded-full text-xs font-medium border border-gray-300 text-gray-600 hover:bg-brand-50 hover:border-brand-300 hover:text-brand-700 transition-colors">90 days</button>
-          <button data-days="all" class="preset-btn px-3 py-1.5 rounded-full text-xs font-medium border border-gray-300 text-gray-600 hover:bg-brand-50 hover:border-brand-300 hover:text-brand-700 transition-colors">All time</button>
+          <button data-days="7" class="preset-btn">7 days</button>
+          <button data-days="30" class="preset-btn active">30 days</button>
+          <button data-days="90" class="preset-btn">90 days</button>
+          <button data-days="all" class="preset-btn">All time</button>
         </div>
-        
-        <!-- Custom date inputs -->
         <div class="flex items-center gap-2 ml-auto">
-          <input type="date" id="date-start" class="date-input text-xs border border-gray-300 rounded-lg px-2.5 py-1.5 focus:ring-2 focus:ring-brand-300 focus:border-brand-400 outline-none">
+          <input type="date" id="date-start" class="date-input">
           <span class="text-gray-400 text-xs">to</span>
-          <input type="date" id="date-end" class="date-input text-xs border border-gray-300 rounded-lg px-2.5 py-1.5 focus:ring-2 focus:ring-brand-300 focus:border-brand-400 outline-none">
-          <button id="btn-apply" class="px-3 py-1.5 bg-brand-600 text-white rounded-lg text-xs font-medium hover:bg-brand-700 transition-colors shadow-sm">Apply</button>
+          <input type="date" id="date-end" class="date-input">
+          <button id="btn-apply" class="px-3 py-1.5 bg-qteal-500 text-white rounded-lg text-xs font-medium hover:bg-qteal-600 transition-colors shadow-sm">Apply</button>
         </div>
       </div>
     </div>
@@ -85,45 +97,61 @@
   <!-- Main Content -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
 
-    <!-- Loading State -->
+    <!-- Loading -->
     <div id="loading" class="flex flex-col items-center justify-center py-20">
       <div class="loader mb-4"></div>
       <p class="text-gray-400 text-sm">Loading campaign data…</p>
     </div>
 
-    <!-- Error State -->
+    <!-- Error -->
     <div id="error" class="hidden bg-red-50 border border-red-200 rounded-xl p-6 text-center">
       <p class="text-red-600 font-medium">Unable to load data</p>
       <p id="error-msg" class="text-red-400 text-sm mt-1"></p>
       <button onclick="loadData()" class="mt-3 px-4 py-2 bg-red-100 text-red-700 rounded-lg text-sm hover:bg-red-200 transition-colors">Retry</button>
     </div>
 
-    <!-- Summary Cards -->
+    <!-- Summary Cards: Spend → Impressions → Clicks → CTR -->
     <div id="summary" class="hidden">
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        <div class="summary-card bg-white rounded-xl p-4 sm:p-5 border border-gray-100 shadow-sm">
-          <p class="text-xs text-gray-400 uppercase tracking-wider font-medium">Total Clicks</p>
-          <p id="total-clicks" class="text-2xl sm:text-3xl font-bold text-brand-700 mt-1">—</p>
+        <div class="summary-card" data-tip="Total amount spent across all campaigns in the selected date range.">
+          <p class="summary-label">Total Spend</p>
+          <p id="total-cost" class="summary-value text-qteal-600">—</p>
         </div>
-        <div class="summary-card bg-white rounded-xl p-4 sm:p-5 border border-gray-100 shadow-sm">
-          <p class="text-xs text-gray-400 uppercase tracking-wider font-medium">Impressions</p>
-          <p id="total-impressions" class="text-2xl sm:text-3xl font-bold text-gray-700 mt-1">—</p>
+        <div class="summary-card" data-tip="Total number of times your ads were displayed to potential customers.">
+          <p class="summary-label">Impressions</p>
+          <p id="total-impressions" class="summary-value text-qnav-700">—</p>
         </div>
-        <div class="summary-card bg-white rounded-xl p-4 sm:p-5 border border-gray-100 shadow-sm">
-          <p class="text-xs text-gray-400 uppercase tracking-wider font-medium">Total Spend</p>
-          <p id="total-cost" class="text-2xl sm:text-3xl font-bold text-emerald-600 mt-1">—</p>
+        <div class="summary-card" data-tip="Total number of clicks on your ads. Each click represents a potential customer visiting your site.">
+          <p class="summary-label">Clicks</p>
+          <p id="total-clicks" class="summary-value text-qnav-900">—</p>
         </div>
-        <div class="summary-card bg-white rounded-xl p-4 sm:p-5 border border-gray-100 shadow-sm">
-          <p class="text-xs text-gray-400 uppercase tracking-wider font-medium">Avg CTR</p>
-          <p id="avg-ctr" class="text-2xl sm:text-3xl font-bold text-amber-600 mt-1">—</p>
+        <div class="summary-card" data-tip="Click-Through Rate — the percentage of impressions that resulted in a click. Higher CTR means your ads are more relevant.">
+          <p class="summary-label">Avg CTR</p>
+          <p id="avg-ctr" class="summary-value text-amber-600">—</p>
         </div>
       </div>
     </div>
 
-    <!-- Trend Chart -->
+    <!-- Trend Chart with metric toggles -->
     <div id="chart-section" class="hidden bg-white rounded-xl border border-gray-100 shadow-sm p-4 sm:p-6">
-      <h2 class="text-sm font-semibold text-gray-700 mb-4">Daily Clicks</h2>
-      <div class="relative" style="height: 220px;">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+        <h2 class="text-sm font-semibold text-gray-700">Daily Performance</h2>
+        <div class="flex gap-1.5 flex-wrap" id="chart-toggles">
+          <button data-metric="clicks" class="chart-toggle active" style="--toggle-color:#1B2A4A">
+            <span class="toggle-dot"></span> Clicks
+          </button>
+          <button data-metric="impressions" class="chart-toggle" style="--toggle-color:#829ab1">
+            <span class="toggle-dot"></span> Impressions
+          </button>
+          <button data-metric="cost" class="chart-toggle" style="--toggle-color:#00B4A6">
+            <span class="toggle-dot"></span> Spend
+          </button>
+          <button data-metric="ctr" class="chart-toggle" style="--toggle-color:#F59E0B">
+            <span class="toggle-dot"></span> CTR
+          </button>
+        </div>
+      </div>
+      <div class="relative" style="height:250px;">
         <canvas id="trend-chart"></canvas>
       </div>
     </div>
@@ -131,17 +159,22 @@
     <!-- Campaign Cards -->
     <div id="campaigns" class="hidden">
       <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Campaigns</h2>
-      <div id="campaign-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        <!-- Cards injected by JS -->
-      </div>
+      <div id="campaign-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
     </div>
-
   </main>
 
+  <!-- Expand Modal -->
+  <div id="modal-overlay" class="modal-overlay hidden" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
   <!-- Footer -->
-  <footer class="border-t border-gray-100 mt-12">
+  <footer class="border-t border-gray-100 mt-12 print:hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 text-center text-xs text-gray-300">
-      Quinnevic Ads Dashboard &middot; Data refreshes daily
+      Quinovic Ads Dashboard &middot; Data refreshes daily
     </div>
   </footer>
 

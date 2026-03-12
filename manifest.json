@@ -1,11 +1,11 @@
 {
-  "name": "Quinnevic Ads Dashboard",
-  "short_name": "Quinnevic",
-  "description": "Google Ads campaign performance dashboard for Quinnevic",
+  "name": "Quinovic Ads Dashboard",
+  "short_name": "Quinovic",
+  "description": "Google Ads campaign performance dashboard for Quinovic",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f9fafb",
-  "theme_color": "#1e3a5f",
+  "theme_color": "#1B2A4A",
   "orientation": "any",
   "icons": [
     {

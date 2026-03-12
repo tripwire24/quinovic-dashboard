@@ -1,5 +1,5 @@
 /**
- * Quinnevic — Google Ads BACKFILL Script
+ * Quinovic — Google Ads BACKFILL Script
  * 
  * ONE-TIME USE: Backfills historical data from START_DATE to yesterday.
  * Run manually in Google Ads Scripts, then disable/delete.
@@ -142,9 +142,11 @@ function getExistingDateCampaignPairs(sheet) {
 }
 
 function extractRegion(campaignName) {
-  var parts = campaignName.split(' - ');
-  if (parts.length > 1) {
-    return parts[parts.length - 1].trim();
+  if (campaignName.indexOf(' | ') !== -1) {
+    var parts = campaignName.split(' | ');
+    if (parts.length >= 2) return parts[1].trim();
   }
+  var dashParts = campaignName.split(' - ');
+  if (dashParts.length > 1) return dashParts[dashParts.length - 1].trim();
   return 'Auckland';
 }
