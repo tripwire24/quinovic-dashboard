@@ -12,7 +12,7 @@ const CONFIG = {
   DEFAULT_DAYS: 30,
   CURRENCY: 'NZD',
   LOCALE: 'en-NZ',
-  MAX_CHART_METRICS: 3,
+  MAX_CHART_METRICS: 4,
 };
 
 // Chart metric definitions
