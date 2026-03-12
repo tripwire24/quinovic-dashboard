@@ -47,7 +47,8 @@ function doGet(e) {
  */
 function getData(startDateStr, endDateStr) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName('data');
+  // Try 'data' tab first, fall back to first sheet
+  var sheet = ss.getSheetByName('data') || ss.getSheets()[0];
   
   if (!sheet || sheet.getLastRow() <= 1) {
     return [];
