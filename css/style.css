@@ -1,0 +1,118 @@
+/* Quinnevic Dashboard — Custom Styles */
+
+/* Loader spinner */
+.loader {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #3379fc;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Smooth transitions on cards */
+.summary-card,
+.campaign-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.campaign-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.08), 0 4px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Progress bar for impression share */
+.impr-bar-track {
+  background: #f1f5f9;
+  border-radius: 999px;
+  height: 6px;
+  overflow: hidden;
+}
+
+.impr-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+
+/* Metric row */
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid #f8fafc;
+}
+
+.metric-row:last-child {
+  border-bottom: none;
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.metric-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* Date input styling */
+.date-input {
+  max-width: 140px;
+}
+
+/* Preset button active state */
+.preset-btn.active {
+  border-color: #3379fc;
+  background: #eef5ff;
+  color: #1545de;
+}
+
+/* Responsive chart container */
+#trend-chart {
+  width: 100% !important;
+}
+
+/* Smooth fade in for sections */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeUp 0.3s ease forwards;
+}
+
+/* Campaign card badge */
+.region-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: #eef5ff;
+  color: #1545de;
+}
+
+/* Print-friendly */
+@media print {
+  header { background: #1a338e !important; -webkit-print-color-adjust: exact; }
+  .sticky { position: static; }
+  .campaign-card { break-inside: avoid; }
+}
