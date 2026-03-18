@@ -13,6 +13,8 @@ const CONFIG = {
   CURRENCY: 'NZD',
   LOCALE: 'en-NZ',
   MAX_CHART_METRICS: 4,
+  // SHA-256 of dashboard password
+  AUTH_HASH: '0a48205b6d58b48222d0d936e03844523b7322a4547942afb2901c4b1000f45e',
 };
 
 // Chart metric definitions
@@ -539,7 +541,47 @@ async function loadData() {
 // EVENT LISTENERS
 // ═══════════════════════════════════════════════════
 
+// ═══════════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════════
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function isAuthenticated() {
+  return sessionStorage.getItem('qd_auth') === '1';
+}
+
+function showDashboard() {
+  document.getElementById('login-gate').classList.add('hidden');
+  sessionStorage.setItem('qd_auth', '1');
+}
+
+async function handleLogin() {
+  const pw = document.getElementById('login-password').value;
+  const hash = await sha256(pw);
+  if (hash === CONFIG.AUTH_HASH) {
+    document.getElementById('login-error').classList.add('hidden');
+    showDashboard();
+    loadData();
+  } else {
+    document.getElementById('login-error').classList.remove('hidden');
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Auth gate
+  document.getElementById('login-form').addEventListener('submit', handleLogin);
+  if (isAuthenticated()) {
+    showDashboard();
+  }
+
   setDateInputs(daysAgo(CONFIG.DEFAULT_DAYS), new Date());
 
   // Preset buttons
@@ -592,8 +634,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape') closeModal();
   });
 
-  // Load
-  loadData();
+  // Load (only if already authenticated)
+  if (isAuthenticated()) loadData();
 });
 
 // Service worker

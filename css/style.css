@@ -4,6 +4,31 @@
    Font: Inter (Google Fonts)
    ═══════════════════════════════════════════════════ */
 
+/* ── Login Gate ── */
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1B2A4A;
+  transition: opacity 0.3s ease;
+}
+.login-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.login-card {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 2rem 2rem 1.5rem;
+  width: 100%;
+  max-width: 380px;
+  margin: 1rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
 /* ── Loader ── */
 .loader {
   width: 36px; height: 36px;

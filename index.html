@@ -50,6 +50,31 @@
 </head>
 <body class="bg-gray-50 text-gray-800 min-h-screen font-sans">
 
+  <!-- Login Gate -->
+  <div id="login-gate" class="login-overlay">
+    <div class="login-card">
+      <div class="flex items-center justify-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-lg bg-qteal-500 flex items-center justify-center">
+          <span class="text-white font-bold text-xl">Q</span>
+        </div>
+        <h2 class="text-xl font-bold text-qnav-900">Quinovic Dashboard</h2>
+      </div>
+      <form id="login-form" class="space-y-4" onsubmit="return false">
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1" for="login-email">Email</label>
+          <input id="login-email" type="email" required autocomplete="email" placeholder="you@example.com" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-qteal-500 focus:border-transparent">
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1" for="login-password">Password</label>
+          <input id="login-password" type="password" required autocomplete="current-password" placeholder="Enter password" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-qteal-500 focus:border-transparent">
+        </div>
+        <p id="login-error" class="text-red-500 text-xs hidden">Incorrect password. Please try again.</p>
+        <button type="submit" id="login-btn" class="w-full py-2.5 bg-qnav-900 text-white rounded-lg text-sm font-semibold hover:bg-qnav-800 transition-colors">Sign In</button>
+      </form>
+      <p class="text-center text-xs text-gray-300 mt-5">Access restricted to authorised users</p>
+    </div>
+  </div>
+
   <!-- Header -->
   <header class="bg-qnav-900 text-white shadow-lg print:shadow-none">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-5">
